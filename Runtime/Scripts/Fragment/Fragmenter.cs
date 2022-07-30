@@ -279,12 +279,13 @@ public static class Fragmenter
             //If there is fractureForce parameter applied, add force to the RigidBody
             if (rigidBodyForce != Vector3.zero)
             {
-                fragment.GetComponent<Rigidbody>().AddForce(rigidBodyForce);
+                fragment.GetComponent<Rigidbody>().AddForce(rigidBodyForce * density);
             }
 
             //If lifetime is greater than zero, destroy fragment after lifetime
             if (lifeTime > 0)
             {
+                fragment.renderer.material.a = Mathf.SmoothDamp(1.0f, MovInput, ref 0.0f, lifeTime);
                 GameObject.Destroy(fragment, lifeTime);
             }
 
