@@ -212,6 +212,12 @@ public class Fracture : MonoBehaviour
         // Update mesh to the new sliced mesh
         obj.AddComponent<MeshFilter>();
 
+        //If there is no insideMaterial, copy from main material
+        if (this.fractureOptions.insideMaterial == null)
+        {
+            this.fractureOptions.insideMaterial = this.GetComponent<MeshRenderer>().sharedMaterial;
+        }
+
         // Add materials. Normal material goes in slot 1, cut material in slot 2
         var meshRenderer = obj.AddComponent<MeshRenderer>();
         meshRenderer.sharedMaterials = new Material[2] {
