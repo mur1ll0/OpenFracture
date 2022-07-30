@@ -285,7 +285,8 @@ public static class Fragmenter
             //If lifetime is greater than zero, destroy fragment after lifetime
             if (lifeTime > 0)
             {
-                fragment.renderer.material.a = Mathf.SmoothDamp(1.0f, MovInput, ref 0.0f, lifeTime);
+                float fadeVelocity = 0.0f;
+                fragment.GetComponent<MeshRenderer>().material.color.a = Mathf.SmoothDamp(1.0f, 0.0f, ref fadeVelocity, lifeTime);
                 GameObject.Destroy(fragment, lifeTime);
             }
 
