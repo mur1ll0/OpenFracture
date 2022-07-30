@@ -1,3 +1,25 @@
+Modification of the OpenFracture project, forked from https://github.com/dgreenheck/OpenFracture
+In this modification, I put a new Trigger Mode on Fracturer named **Code** because I need to call the fracturer by code and not by collision or triggers.
+So if the Trigger Mode is in **Code** mode, the fracturer will ignore OnCollision and OnTrigger events.
+Also I put two new parameters in the FractureOptions: 
+- **Rigid Body Force** - This will apply force to fractured pieces after the main object is shattered.
+- **Fragments Life Time** - This will fade and kill each fragment after amount time in seconds. If you put 0, it means not kill the fragments.
+
+For my use purpose, I needed to apply an explosion force to the fragments and shatter a box when the bomb explodes. So in my example I set the rigid body force to the Fracturer and them call the **FractureByCode()** function:
+```c#
+RaycastHit hit;
+if (Physics.Linecast(explosionPos, collider.transform.position, out hit, layerMask))
+{
+    if (hit.collider.GetComponent<Fracture>() != null)
+    {
+        Fracture fracture = hit.collider.GetComponent<Fracture>();
+        fracture.fractureOptions.rigidBodyForce = (hit.collider.transform.position - explosionPos) * explosionForce;
+        fracture.FractureByCode();
+    }
+}
+```
+Below is the OpenFracture readme.
+
 # OpenFracture
 
 ![OpenFracture GitHub Header](https://user-images.githubusercontent.com/3814912/148176407-a0c49ba0-c704-4b60-89a3-cea47175b6c2.gif)
