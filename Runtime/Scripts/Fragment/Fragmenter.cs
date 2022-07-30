@@ -285,11 +285,7 @@ public static class Fragmenter
             //If lifetime is greater than zero, destroy fragment after lifetime
             if (lifeTime > 0)
             {
-                float fadeVelocity = 0.0f;
-                Color fadeColor = fragment.GetComponent<MeshRenderer>().material.color;
-                fadeColor.a = Mathf.SmoothDamp(1.0f, 0.0f, ref fadeVelocity, lifeTime);
-                fragment.GetComponent<MeshRenderer>().material.color = fadeColor;
-                GameObject.Destroy(fragment, lifeTime);
+                StartCoroutine(FadeAndDie(fragment, lifeTime));
             }
 
             // This code only compiles for the editor
@@ -303,5 +299,20 @@ public static class Fragmenter
 
             i++;
         }
+    }
+
+    private IEnumerator FadeAndDie(GameObject fadeObject, float lifeTime)
+    {
+        yield return new WaitForSeconds(lifeTime);
+
+        while (fadeObject.GetComponent<Renderer>().material.color.a > 0)
+        {
+            Color fadeColor = fadeObject.GetComponent<Renderer>().material.color;
+            fadeColor.a -= (1.0f * Time.deltaTime);
+            fadeObject.GetComponent<Renderer>().material.color = fadeColor;
+            yield return null;
+        }
+        Destroy(fadeObject);
+        yield return null;
     }
 }
