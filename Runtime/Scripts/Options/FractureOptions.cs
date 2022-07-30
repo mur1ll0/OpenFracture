@@ -35,6 +35,9 @@ public class FractureOptions
     [Tooltip("Offset to apply to texture coordinates")]
     public Vector2 textureOffset;
 
+    [Tooltip("RigidBody force to apply to fractured pieces")]
+    public Vector3 rigidBodyForce;
+
     public FractureOptions()
     {
         this.fragmentCount = 10;
@@ -46,5 +49,6 @@ public class FractureOptions
         this.insideMaterial = null;
         this.textureScale = Vector2.one;
         this.textureOffset = Vector2.zero;
+        this.rigidBodyForce = Vector3.zero;
     }
 }

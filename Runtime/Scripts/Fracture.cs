@@ -107,9 +107,14 @@ public class Fracture : MonoBehaviour
         }
     }
 
-    public void FractureByCode(Vector3 force = Vector3.Zero)
+    //MURILLO: Can be called by code
+    public void FractureByCode()
     {
-        this.GetComponent<RigidBody>().AddForce(force);
+        //If there is fractureForce parameter applied, add force to the RigidBody
+        if (fractureOptions.rigidBodyForce != Vector3.zero)
+        {
+            this.GetComponent<RigidBody>().AddForce(fractureOptions.rigidBodyForce);
+        }
         this.ComputeFracture();
     }
 
