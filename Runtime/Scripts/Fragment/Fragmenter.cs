@@ -286,7 +286,9 @@ public static class Fragmenter
             if (lifeTime > 0)
             {
                 float fadeVelocity = 0.0f;
-                fragment.GetComponent<MeshRenderer>().material.color.a = Mathf.SmoothDamp(1.0f, 0.0f, ref fadeVelocity, lifeTime);
+                Color fadeColor = fragment.GetComponent<MeshRenderer>().material.color;
+                fadeColor.a = Mathf.SmoothDamp(1.0f, 0.0f, ref fadeVelocity, lifeTime);
+                fragment.GetComponent<MeshRenderer>().material.color = fadeColor;
                 GameObject.Destroy(fragment, lifeTime);
             }
 
