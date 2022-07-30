@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using System.Threading.Tasks;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -285,7 +286,7 @@ public static class Fragmenter
             //If lifetime is greater than zero, destroy fragment after lifetime
             if (lifeTime > 0)
             {
-                instance.StartCoroutine(FadeAndDie(fragment, lifeTime));
+                FadeAndDie(fragment, lifeTime);
             }
 
             // This code only compiles for the editor
@@ -301,23 +302,17 @@ public static class Fragmenter
         }
     }
 
-    private static IEnumerator FadeAndDie(GameObject fadeObject, float lifeTime)
+    private static async void FadeAndDie(GameObject fadeObject, float lifeTime)
     {
-        yield return new WaitForSeconds(lifeTime);
+        await Task.Delay(Mathf.RoundToInt(lifeTime) * 1000);
 
         while (fadeObject.GetComponent<Renderer>().material.color.a > 0)
         {
             Color fadeColor = fadeObject.GetComponent<Renderer>().material.color;
             fadeColor.a -= (1.0f * Time.deltaTime);
             fadeObject.GetComponent<Renderer>().material.color = fadeColor;
-            yield return null;
+            await Task.Delay(50);
         }
-        instance.Destroy(fadeObject);
-        yield return null;
-    }
-
-    void Awake()
-    {
-        instance = this;
+        UnityEngine.Object.Destroy(fadeObject);
     }
 }
