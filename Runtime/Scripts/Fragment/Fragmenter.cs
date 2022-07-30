@@ -301,7 +301,7 @@ public static class Fragmenter
         }
     }
 
-    private IEnumerator FadeAndDie(GameObject fadeObject, float lifeTime)
+    private static IEnumerator FadeAndDie(GameObject fadeObject, float lifeTime)
     {
         yield return new WaitForSeconds(lifeTime);
 
