@@ -1,5 +1,7 @@
 Modification of the OpenFracture project, forked from https://github.com/dgreenheck/OpenFracture
+
 In this modification, I put a new Trigger Mode on Fracturer named **Code** because I need to call the fracturer by code and not by collision or triggers.
+
 So if the Trigger Mode is in **Code** mode, the fracturer will ignore OnCollision and OnTrigger events.
 Also I put two new parameters in the FractureOptions: 
 - **Rigid Body Force** - This will apply force to fractured pieces after the main object is shattered.
