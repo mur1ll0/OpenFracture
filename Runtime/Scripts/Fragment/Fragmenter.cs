@@ -285,7 +285,7 @@ public static class Fragmenter
             //If lifetime is greater than zero, destroy fragment after lifetime
             if (lifeTime > 0)
             {
-                this.StartCoroutine(FadeAndDie(fragment, lifeTime));
+                instance.StartCoroutine(FadeAndDie(fragment, lifeTime));
             }
 
             // This code only compiles for the editor
@@ -312,7 +312,12 @@ public static class Fragmenter
             fadeObject.GetComponent<Renderer>().material.color = fadeColor;
             yield return null;
         }
-        Destroy(fadeObject);
+        instance.Destroy(fadeObject);
         yield return null;
+    }
+
+    void Awake()
+    {
+        instance = this;
     }
 }
