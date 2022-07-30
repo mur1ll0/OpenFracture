@@ -183,7 +183,7 @@ public static class Fragmenter
                        parent,
                        false,
                        "",
-                       options.detectFloatingFragments,
+                       options,
                        ref i);
 
         CreateFragment(bottomSlice,
@@ -192,7 +192,7 @@ public static class Fragmenter
                        parent,
                        false,
                        "",
-                       options.detectFloatingFragments,
+                       options,
                        ref i);
     }
 
