@@ -73,6 +73,7 @@ public static class Fragmenter
                            saveFolderPath,
                            options.detectFloatingFragments,
                            options.rigidBodyForce,
+                           options.fragmentsLifeTime,
                            ref i);
         }
     }
@@ -140,6 +141,7 @@ public static class Fragmenter
                            "",
                            options.detectFloatingFragments,
                            options.rigidBodyForce,
+                           options.fragmentsLifeTime,
                            ref i);
         }
 
@@ -187,6 +189,7 @@ public static class Fragmenter
                        "",
                        options.detectFloatingFragments,
                        Vector3.zero,
+                       0.0f,
                        ref i);
 
         CreateFragment(bottomSlice,
@@ -197,6 +200,7 @@ public static class Fragmenter
                        "",
                        options.detectFloatingFragments,
                        Vector3.zero,
+                       0.0f,
                        ref i);
     }
 
@@ -216,6 +220,7 @@ public static class Fragmenter
                                        string saveFolderPath,
                                        bool detectFloatingFragments,
                                        Vector3 rigidBodyForce,
+                                       float lifeTime,
                                        ref int i)
     {
         // If there is no mesh data, don't create an object
@@ -275,6 +280,12 @@ public static class Fragmenter
             if (rigidBodyForce != Vector3.zero)
             {
                 fragment.GetComponent<Rigidbody>().AddForce(rigidBodyForce);
+            }
+
+            //If lifetime is greater than zero, destroy fragment after lifetime
+            if (lifeTime > 0)
+            {
+                GameObject.Destroy(fragment, lifeTime);
             }
 
             // This code only compiles for the editor

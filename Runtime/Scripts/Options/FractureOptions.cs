@@ -38,6 +38,9 @@ public class FractureOptions
     [Tooltip("RigidBody force to apply to fractured pieces")]
     public Vector3 rigidBodyForce;
 
+    [Tooltip("The lifetime to destroy the fragments after they are created. 0 means never destroy.")]
+    public float fragmentsLifeTime;
+
     public FractureOptions()
     {
         this.fragmentCount = 10;
@@ -50,5 +53,6 @@ public class FractureOptions
         this.textureScale = Vector2.one;
         this.textureOffset = Vector2.zero;
         this.rigidBodyForce = Vector3.zero;
+        this.fragmentsLifeTime = 0;
     }
 }
