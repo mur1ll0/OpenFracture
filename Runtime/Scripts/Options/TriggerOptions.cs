@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum TriggerType 
 {
+    Code,
     Collision,
     Trigger,
     Keyboard
@@ -29,7 +30,7 @@ public class TriggerOptions
 
     public TriggerOptions()
     {
-        this.triggerType = TriggerType.Collision;
+        this.triggerType = TriggerType.Code;
         this.minimumCollisionForce = 0f;
         this.filterCollisionsByTag = false;
         this.triggerAllowedTags = new List<string>();

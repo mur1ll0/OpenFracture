@@ -107,6 +107,12 @@ public class Fracture : MonoBehaviour
         }
     }
 
+    public void FractureByCode(Vector3 force = Vector3.Zero)
+    {
+        this.GetComponent<RigidBody>().AddForce(force);
+        this.ComputeFracture();
+    }
+
     /// <summary>
     /// Compute the fracture and create the fragments
     /// </summary>
