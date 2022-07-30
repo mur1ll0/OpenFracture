@@ -71,7 +71,8 @@ public static class Fragmenter
                            parent,
                            saveToDisk,
                            saveFolderPath,
-                           options,
+                           options.detectFloatingFragments,
+                           options.rigidBodyForce,
                            ref i);
         }
     }
@@ -137,7 +138,8 @@ public static class Fragmenter
                            parent,
                            false,
                            "",
-                           options,
+                           options.detectFloatingFragments,
+                           options.rigidBodyForce,
                            ref i);
         }
 
@@ -183,7 +185,8 @@ public static class Fragmenter
                        parent,
                        false,
                        "",
-                       options,
+                       options.detectFloatingFragments,
+                       Vector3.zero,
                        ref i);
 
         CreateFragment(bottomSlice,
@@ -192,7 +195,8 @@ public static class Fragmenter
                        parent,
                        false,
                        "",
-                       options,
+                       options.detectFloatingFragments,
+                       Vector3.zero,
                        ref i);
     }
 
@@ -203,7 +207,6 @@ public static class Fragmenter
     /// <param name="sourceObject">The source object to fragment. This object must have a MeshFilter, a RigidBody and a Collider.</param>
     /// <param name="fragmentTemplate">The template GameObject that each fragment will clone</param>
     /// <param name="parent">The parent transform for the fragment objects</param>
-    /// <param name="options">Options for the fragmenter</param>
     /// <param name="i">Fragment counter</param>
     private static void CreateFragment(FragmentData fragmentMeshData,
                                        GameObject sourceObject,
@@ -211,7 +214,8 @@ public static class Fragmenter
                                        Transform parent,
                                        bool saveToDisk,
                                        string saveFolderPath,
-                                       FractureOptions options,
+                                       bool detectFloatingFragments,
+                                       Vector3 rigidBodyForce,
                                        ref int i)
     {
         // If there is no mesh data, don't create an object
@@ -222,9 +226,6 @@ public static class Fragmenter
 
         Mesh[] meshes;
         Mesh fragmentMesh = fragmentMeshData.ToMesh();
-
-        //Boolean if detects floating objects
-        bool detectFloatingFragments = options.detectFloatingFragments;
 
         // If the "Detect Floating Fragments" option is enabled, take the fragment mesh and
         // identify disconnected sets of geometry within it, treating each of these as a
@@ -271,9 +272,9 @@ public static class Fragmenter
             rigidBody.mass = (size.x * size.y * size.z) / density;
 
             //If there is fractureForce parameter applied, add force to the RigidBody
-            if (options.rigidBodyForce != Vector3.zero)
+            if (rigidBodyForce != Vector3.zero)
             {
-                fragment.GetComponent<Rigidbody>().AddForce(options.rigidBodyForce);
+                fragment.GetComponent<Rigidbody>().AddForce(rigidBodyForce);
             }
 
             // This code only compiles for the editor
