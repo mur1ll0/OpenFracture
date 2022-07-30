@@ -111,11 +111,6 @@ public class Fracture : MonoBehaviour
     public void FractureByCode()
     {
         this.ComputeFracture();
-        //If there is fractureForce parameter applied, add force to the RigidBody
-        if (fractureOptions.rigidBodyForce != Vector3.zero)
-        {
-            this.GetComponent<Rigidbody>().AddForce(fractureOptions.rigidBodyForce);
-        }
     }
 
     /// <summary>

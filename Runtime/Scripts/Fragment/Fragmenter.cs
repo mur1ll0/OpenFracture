@@ -71,7 +71,7 @@ public static class Fragmenter
                            parent,
                            saveToDisk,
                            saveFolderPath,
-                           options.detectFloatingFragments,
+                           options,
                            ref i);
         }
     }
@@ -137,7 +137,7 @@ public static class Fragmenter
                            parent,
                            false,
                            "",
-                           options.detectFloatingFragments,
+                           options,
                            ref i);
         }
 
@@ -203,6 +203,7 @@ public static class Fragmenter
     /// <param name="sourceObject">The source object to fragment. This object must have a MeshFilter, a RigidBody and a Collider.</param>
     /// <param name="fragmentTemplate">The template GameObject that each fragment will clone</param>
     /// <param name="parent">The parent transform for the fragment objects</param>
+    /// <param name="options">Options for the fragmenter</param>
     /// <param name="i">Fragment counter</param>
     private static void CreateFragment(FragmentData fragmentMeshData,
                                        GameObject sourceObject,
@@ -210,7 +211,7 @@ public static class Fragmenter
                                        Transform parent,
                                        bool saveToDisk,
                                        string saveFolderPath,
-                                       bool detectFloatingFragments,
+                                       FractureOptions options,
                                        ref int i)
     {
         // If there is no mesh data, don't create an object
@@ -221,6 +222,9 @@ public static class Fragmenter
 
         Mesh[] meshes;
         Mesh fragmentMesh = fragmentMeshData.ToMesh();
+
+        //Boolean if detects floating objects
+        bool detectFloatingFragments = options.detectFloatingFragments;
 
         // If the "Detect Floating Fragments" option is enabled, take the fragment mesh and
         // identify disconnected sets of geometry within it, treating each of these as a
@@ -265,15 +269,21 @@ public static class Fragmenter
             var size = fragmentMesh.bounds.size;
             float density = (parentSize.x * parentSize.y * parentSize.z) / parentMass;
             rigidBody.mass = (size.x * size.y * size.z) / density;
-            
+
+            //If there is fractureForce parameter applied, add force to the RigidBody
+            if (options.rigidBodyForce != Vector3.zero)
+            {
+                fragment.GetComponent<Rigidbody>().AddForce(options.rigidBodyForce);
+            }
+
             // This code only compiles for the editor
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             if (saveToDisk)
             {
                 string path = $"{saveFolderPath}/{meshes[k].name}.asset";
                 AssetDatabase.CreateAsset(meshes[k], path);
             }
-            #endif
+#endif
 
             i++;
         }
