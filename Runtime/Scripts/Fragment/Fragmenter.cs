@@ -311,7 +311,7 @@ public static class Fragmenter
             Color fadeColor = fadeObject.GetComponent<Renderer>().material.color;
             fadeColor.a -= 0.1f;
             fadeObject.GetComponent<Renderer>().material.color = fadeColor;
-            await Task.Delay(100);
+            await Task.Delay(200);
         }
         UnityEngine.Object.Destroy(fadeObject);
     }
