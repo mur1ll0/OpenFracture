@@ -280,7 +280,7 @@ public static class Fragmenter
             //If there is fractureForce parameter applied, add force to the RigidBody
             if (rigidBodyForce != Vector3.zero)
             {
-                fragment.GetComponent<Rigidbody>().AddForce(rigidBodyForce * density);
+                fragment.GetComponent<Rigidbody>().AddForce(rigidBodyForce * rigidBody.mass);
             }
 
             //If lifetime is greater than zero, destroy fragment after lifetime
